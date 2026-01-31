@@ -67,12 +67,72 @@
                         </div>
                     </div>
                 </div>
-                <div class="about-image">
-  <div class="image-frame">
-    <div class="image-glow"></div>
-    <div class="place-holder">
-      <div class="glow-circle">
-        <img src="harish.jpeg"alt="Profile">
+                body {
+  margin: 0;
+  height: 100vh;
+  background: #0b0f1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+}
+
+/* Wrapper (same size as your circle) */
+.profile-wrapper {
+  width: 260px;
+  height: 260px;
+}
+
+/* Neon circle */
+.glow-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #ff003c, #ff0057);
+  box-shadow:
+    0 0 20px rgba(255, 0, 60, 0.8),
+    0 0 45px rgba(255, 0, 60, 0.6);
+  position: relative;
+  overflow: hidden;
+  animation: pulse 2s infinite alternate;
+}
+
+/* Profile image */
+.glow-circle img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Center text (neon style) */
+.profile-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 5px #ff003c,
+    0 0 15px #ff003c,
+    0 0 30px #ff003c;
+  pointer-events: none;
+}
+
+/* Glow animation */
+@keyframes pulse {
+  from {
+    box-shadow: 0 0 20px #ff003c;
+  }
+  to {
+    box-shadow: 0 0 55px #ff003c;
+  }
+}
                         </div>
                     </div>
                 </div>
