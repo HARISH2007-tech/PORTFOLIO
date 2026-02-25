@@ -251,25 +251,60 @@
                         <a href="https://www.instagram.com/_.harish_d?igsh=MTVwOGMyMzNpbGNz" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="Your Message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <span>Send Message</span>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+              <!-- FEEDBACK -->
+<section id="feedback">
+<div class="container card">
+<h2 class="section-title">Feedback</h2>
+
+<form class="feedback-form" id="feedbackForm">
+<input type="text" id="name" placeholder="Your Name" required>
+<input type="email" id="email" placeholder="Your Email" required>
+<textarea rows="4" id="message" placeholder="Your Feedback" required></textarea>
+<button type="submit">Submit Feedback</button>
+</form>
+
+<div class="feedback-status" id="status"></div>
+</div>
+</section>
+
+<footer style="text-align:center;padding:20px;color:var(--muted)">
+© 2026 Ankit Biyani
+</footer>
+
+<script>
+/* 🔗 SUPABASE CONFIG */
+const supabaseUrl = "https://ysqsepdncbmxeftzqnjj.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzcXNlcGRuY2JteGVmdHpxbmpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMDMzMDYsImV4cCI6MjA4NzU3OTMwNn0.gQl4-uIG89AXyQlGmNGJSSwPm33w-JKJbyZESgiLyWE;
+
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+/* 📨 FEEDBACK SUBMIT */
+document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+e.preventDefault();
+
+const status = document.getElementById("status");
+status.innerText = "Submitting...";
+
+const name = document.getElementById("name").value;
+const email = document.getElementById("email").value;
+const message = document.getElementById("message").value;
+
+const { error } = await supabaseClient
+.from("feedbacks")
+.insert([{ name, email, message }]);
+
+if (error) {
+status.innerText = "❌ Error submitting feedback";
+status.style.color = "red";
+} else {
+status.innerText = "✅ Feedback submitted successfully!";
+status.style.color = "#00d4ff";
+e.target.reset();
+}});
+</script>
+
+</body>
+</html>
     </section>
 
     <!-- Footer -->
