@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon"
 href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <style>
 :root{
@@ -351,10 +351,10 @@ grid-template-columns:1fr;
 <div class="container card">
 <h2 class="section-title"><span class="neon-red">#</span> Feedback</h2>
 
-<form class="feedback-form" id="feedbackForm">
-<input type="text" id="name" placeholder="Your Name" required>
-<input type="email" id="email" placeholder="Your Email" required>
-<textarea rows="4" id="message" placeholder="Your Feedback" required></textarea>
+<form class="feedback-form" id="feedbackForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+<input type="text" name="name" placeholder="Your Name" required>
+<input type="email" name="email" placeholder="Your Email" required>
+<textarea rows="4" name="message" placeholder="Your Feedback" required></textarea>
 <button type="submit">Submit Feedback</button>
 </form>
 
@@ -373,35 +373,31 @@ document.querySelectorAll(".skill-progress").forEach(bar=>{
 bar.style.width = bar.dataset.level + "%";
 });
 
-/* SUPABASE CONFIG (FIXED) */
-const supabaseUrl = "https://ysqsepdncbmxeftzqnjj.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzcXNlcGRuY2JteGVmdHpxbmpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMDMzMDYsImV4cCI6MjA4NzU3OTMwNn0.gQl4-uIG89AXyQlGmNGJSSwPm33w-JKJbyZESgiLyWE";
+/* FORMSPREE FEEDBACK HANDLER */
+document.getElementById("feedbackForm").addEventListener("submit", function(e){
+const submitBtn = this.querySelector('button[type="submit"]');
+const originalText = submitBtn.textContent;
 
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+// Show loading state
+submitBtn.textContent = 'Sending...';
+submitBtn.disabled = true;
 
-/* FEEDBACK SUBMIT */
-document.getElementById("feedbackForm").addEventListener("submit", async (e)=>{
-e.preventDefault();
+// Formspree will handle the form submission automatically
+// You can optionally show a message after submission
+});
 
-const status = document.getElementById("status");
-status.innerText = "Submitting...";
-
-const name = document.getElementById("name").value;
-const email = document.getElementById("email").value;
-const message = document.getElementById("message").value;
-
-const { error } = await supabaseClient
-.from("feedbacks")
-.insert([{ name, email, message }]);
-
-if(error){
-status.style.color="red";
-status.innerText="❌ Error submitting feedback";
-}else{
-status.style.color="#00d4ff";
-status.innerText="✅ Feedback submitted successfully!";
-e.target.reset();
-}
+// Optional: Show success message when form is submitted via Formspree
+window.addEventListener('load', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('submitted')) {
+    const status = document.getElementById("status");
+    status.style.color = "#00d4ff";
+    status.innerText = "✅ Feedback submitted successfully!";
+    setTimeout(() => {
+      const feedbackForm = document.getElementById("feedbackForm");
+      if (feedbackForm) feedbackForm.reset();
+    }, 500);
+  }
 });
 </script>
 
